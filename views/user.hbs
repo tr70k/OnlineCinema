@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{user_profile.username}}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+            padding: 0;
+            overflow-y: scroll;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 735px;
+        }
+        #Menu {
+            right: 7px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 10px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+        #Info {
+            vertical-align: top;
+            display: inline-block;
+            margin: 0px 18px 10px 0px;
+        }
+        #MoreInfo {
+            margin: -10px 0px 0px 0px;
+            vertical-align: top;
+            width: 862px;
+            display: inline-block;
+        }
+        #MoreInfo div.More {
+            margin-bottom: 10px;
+        }
+        #Settings {
+            display: inline-block;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+            background: #262626;
+            transition: 300ms;
+            vertical-align: bottom;
+            cursor: pointer;
+        }
+        #Settings img {
+            height: 20px;
+            margin-top: 5px;
+            vertical-align: top;
+        }
+        #Settings:hover {
+            background: dodgerblue;
+        }
+        .UserPhoto {
+            width: 200px;
+            height: 200px;
+            text-align: center;
+            background-color: #262626;
+            overflow: hidden;
+            border-radius: 100px;
+        }
+        .UserPhoto img {
+            max-width: 200px;
+        }
+        .LikedMovies {
+            display: inline-block;
+            height: 200px;
+            width: 140px;
+            overflow: hidden;
+            line-height: 190px;
+            /*border: 1px solid transparent;*/
+            transition: 300ms;
+            text-align: center;
+            position: relative;
+        }
+        .LikedMoviesBackground {
+            height: 100%;
+            width: 100%;
+            background-color: #262626;
+        }
+        .LikedMovies img {
+            display: inline-block;
+            width: 140px;
+            vertical-align: middle;
+        }
+        .Play {
+            width: 100%;
+            /*height: 100%;*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            padding: 70px 40px 70px 40px;
+            transition: 300ms;
+            background-color: rgba(38, 38, 38, 0.3);
+        }
+        .LikedMovies:hover .Play {
+            opacity: 1;
+        }
+        #SocialLinks {
+            margin-top: 8px;
+            width: 200px;
+            text-align: center;
+        }
+        .SocialLink {
+            margin: 2px;
+            vertical-align: middle;
+            display: inline-block;
+            padding: 4px;
+            border-radius: 13px;
+            height: 26px;
+            width: 26px;
+            background-color: #262626;
+            transition: 300ms;
+        }
+        .SocialLink img {
+            display: inline-block;
+            height: 18px;
+        }
+        .SocialLink:hover {
+            background-color: dodgerblue;
+        }
+
+
+
+        .Link {
+            display: inline-block;
+            color: lightgrey;
+            background-color: #333333;
+            padding: 2px 4px;
+            margin-top: 2px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 300ms;
+        }
+        .Link:hover {
+            color: whitesmoke;
+            background-color: dodgerblue;
+        }
+        .Review {
+            margin-left: 100px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .Review .Text {
+            padding: 5px 10px;
+            margin-top: -5px;
+            background-color: #262626;
+            min-height: 63px;
+            white-space: pre-line;
+            border-radius: 15px;
+        }
+        .Review .Date {
+            font-size: 13px;
+            font-weight: normal;
+        }
+        .Review .ProfilePhoto {
+            display: block;
+            position: absolute;
+            left: -100px;
+            top: 5px;
+            height: 90px;
+            width: 90px;
+            border-radius: 45px;
+            overflow: hidden;
+            background-color: #262626;
+        }
+        .Review .ProfilePhoto img {
+            height: 100%;
+            width: 100%;
+        }
+        .Review .Delete {
+            position: absolute;
+            z-index: 1;
+            right: 0px;
+            top: 0px;
+            height: 26px;
+            width: 26px;
+            background-color: #333333;
+            border-radius: 15px;
+            padding: 5px;
+            cursor: pointer;
+            transition: 300ms;
+        }
+        .Review .Delete img {
+            height: 100%;
+            width: 100%;
+        }
+        .Review .Delete:hover {
+            background-color: dodgerblue;
+        }
+    </style>
+</head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+<div id="Content">
+<div id="Title"><h2>{{user_profile.username}}{{#if_equal user user_profile.username}} <a id="Settings" href="/edit"><img src="../images/edit.png"></a>{{/if_equal}}</h2></div>
+{{> menu this}}
+    <div id="Info">
+        <div class="UserPhoto"><img id="profilePhoto" src="../images/users/{{user_profile.username}}.png" onerror="this.src='../images/default-user.png'; this.style.marginTop='50px'"></div>
+
+        <div id="SocialLinks">
+            {{#if user_profile.telegram}}<a class="SocialLink" href="https://t.me/{{user_profile.telegram}}"><img src="../../images/social/telegram.png"></a>{{/if}}
+            {{#if user_profile.twitter}}<a class="SocialLink" href="https://twitter.com/{{user_profile.twitter}}"><img src="../../images/social/twitter.png"></a>{{/if}}
+            {{#if user_profile.vk}}<a class="SocialLink" href="https://vk.com/{{user_profile.vk}}"><img src="../../images/social/vk.png"></a>{{/if}}
+            {{#if user_profile.instagram}}<a class="SocialLink" href="https://www.instagram.com/{{user_profile.instagram}}"><img src="../../images/social/instagram.png"></a>{{/if}}
+        </div>
+    </div>
+
+<div id="MoreInfo">
+    {{#if movies.length}}
+        <div class="More"><h3>Любимые фильмы и сериалы</h3>
+        {{#each movies}}
+            <a class="LikedMovies" href="/movies/{{this.url}}"><div class="LikedMoviesBackground">
+                <img src="{{this.poster}}" onerror="this.src='../images/default-movie.png'; this.style.width='64px'">
+                <img class="Play" src="../images/play.png">
+            </div></a>
+        {{/each}}
+        </div>
+    {{/if}}
+    {{#if reviews.length}}
+        <div class="More"><h3>Обзоры на фильмы и сериалы</h3>
+        {{#each reviews}}
+            <div class="Review">
+                <a class="ProfilePhoto" href="/users/{{this.username}}"><img src="../images/users/{{this.username}}.png" onerror="this.src='../images/default-user.png'; this.style.padding='20px'"></a>
+                <h3><span>{{this.username}}</span><span class="Date"><span> про </span><a class="Link" href="/movies/{{this.url}}">{{this.title}}</a> {{this.date}}</span></h3>
+                <div class="Text">{{this.text}}</div>{{#if_equal ../user ../user_profile.username}}<a class="Delete" onclick="clicked(this)"><img src="../images/close.png"></a>{{/if_equal}}
+            </div>
+        {{/each}}
+        </div>
+    {{/if}}
+</div>
+
+</div>
+{{> footer}}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let height = Math.max(
+                document.body.scrollHeight, document.documentElement.scrollHeight,
+                document.body.offsetHeight, document.documentElement.offsetHeight,
+                document.body.clientHeight, document.documentElement.clientHeight
+        );
+        let footer = $("#Footer").css('height').replace("px", "");
+        $("#Content").css("min-height", height - footer - 10 + "px");
+    });
+
+    function clicked(e) {
+        let url = $(e.parentElement.children[1].children[1].children[1]).attr("href");
+        url = url.slice(url.lastIndexOf('/') + 1);
+        $.ajax({
+            type: "POST",
+            url: "/removereview",
+            data: JSON.stringify({url}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                $(e.parentElement).hide();
+            }
+        });
+    };
+</script>
+</body>
+</html>

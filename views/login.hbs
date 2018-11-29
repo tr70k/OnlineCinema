@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Вход / Регистрация</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 730px;
+        }
+        #Menu {
+            right: 10px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 10px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+
+
+        #tabs {
+            height: 320px;
+            width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #262626;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .tablinks {
+            display: inline-block;
+            padding: 5px 10px 0px 10px;
+            cursor: pointer;
+            transition: 300ms;
+        }
+        .tabheader {
+            transition: 300ms;
+        }
+        body.Night .tabheader {
+            background-color: #1a1a1a;
+        }
+        body.Day .tabheader {
+            background-color: lightgrey;
+        }
+        .tablinks:hover {
+            background-color: #333333;
+        }
+        .tablinks.active {
+            background-color: #262626;
+        }
+        .tablinks:hover h3 {
+            color: whitesmoke !important;
+        }
+        .tablinks.active h3 {
+            color: whitesmoke !important;
+        }
+        .tabcontent {
+            display: none;
+            padding: 10px 10px 10px 20px;
+            position: absolute;
+            top: 35px;
+        }
+        #Login {
+            display: block;
+        }
+
+        #Login, #Registration, #PasswordRecovery {
+            /*background-color: red;*/
+            width: 500px;
+        }
+        .submit-btn {
+            margin: 10px 0px 10px 344px;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 300ms;
+            background-color: #333333;
+            color: lightgrey;
+            padding: 0px 10px;
+            font-size: 15px;
+        }
+        .submit-btn:hover {
+            background-color: dodgerblue;
+        }
+
+
+        td:first-child {
+            width: 200px;
+        }
+        td:last-child {
+            width: 250px;
+        }
+        td {
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+        td input {
+            width: 100%;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            background-color: #333333;
+            padding: 0px 10px 0px 10px;
+            color: lightgrey;
+            font-size: 14px;
+        }
+        td input.code {
+            padding-right: 40px;
+        }
+        div.message {
+            width: 455px;
+            padding-bottom: 10px;
+            display: none;
+            text-align: center;
+        }
+        div.message.ErrorMessage {
+            /*border: 1px solid red;*/
+            color: red;
+            /*background-color: #ffcccc;*/
+            display: block;
+        }
+        div.message.SuccessMessage {
+            /*border: 1px solid green;*/
+            color: green;
+            /*background-color: #ccffcc;*/
+            display: block;
+        }
+        #sendCode1,
+        #sendCode2 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 300ms;
+            background-color: transparent;
+        }
+        #sendCode1:hover,
+        #sendCode2:hover {
+            background-color: dodgerblue;
+        }
+        #sendCode1 img,
+        #sendCode2 img {
+            height: 30px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+<div id="Content">
+    <div id="Title"><h2>Вход / Регистрация</h2></div>
+    {{> menu this}}
+
+    <div id="tabs">
+        <div class="tabheader">
+            <a class="tablinks active" onclick="openTab(event, 'Login')"><h3>Вход</h3>
+            </a><a class="tablinks" onclick="openTab(event, 'Registration')"><h3>Регистрация</h3>
+            </a><a class="tablinks" onclick="openTab(event, 'PasswordRecovery')"><h3>Забыли пароль?</h3></a>
+        </div>
+    <div id="Login" class="tabcontent">
+        <form name="login-form">
+            <table>
+                <tr>
+                    <td>Имя пользователя</td>
+                    <td><input name="my_username" type="text" placeholder="my_username" required></td>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td><input name="my_password" type="password" placeholder="my_password" required></td>
+                </tr>
+            </table>
+            <button class="submit-btn" type="submit">Подтвердить</button>
+        </form>
+        <div class="message" id="m1"></div>
+    </div>
+
+
+    <div id="Registration" class="tabcontent">
+        <form name="registration-form">
+            <table>
+                <tr>
+                    <td>Имя пользователя</td>
+                    <td><input name="username" type="text" placeholder="my_username" required></td>
+                </tr>
+                <tr>
+                    <td>Адрес электронной почты</td>
+                    <td><input name="email" type="email" placeholder="my_email@email.com" required></td>
+                </tr>
+                <tr>
+                    <td>Пароль</td>
+                    <td><input name="password" type="password" placeholder="my_password" required></td>
+                </tr>
+                <tr>
+                    <td>Подтверждение пароля</td>
+                    <td><input name="confirm_password" type="password" placeholder="my_password" required></td>
+                </tr>
+                <tr>
+                    <td>Код подтверждения</td>
+                    <td><input class="code" name="code" type="text" placeholder="1234" required> <button id="sendCode1" type="button"><img src="../images/mail.png"></button></td>
+                </tr>
+            </table>
+            <button class="submit-btn" type="submit">Подтвердить</button>
+        </form>
+        <div class="message" id="m2"></div>
+    </div>
+
+
+    <div id="PasswordRecovery" class="tabcontent">
+        <form id="password-recovery-form" name="password-recovery-form">
+            <table>
+                <tr>
+                    <td>Имя пользователя</td>
+                    <td><input name="username" type="text" placeholder="my_username" required></td>
+                </tr>
+                <tr>
+                    <td>Новый пароль</td>
+                    <td><input name="password" type="password" placeholder="my_new_password" required></td>
+                </tr>
+                <tr>
+                    <td>Подтверждение пароля</td>
+                    <td><input name="confirm_password" type="password" placeholder="my_new_password" required></td>
+                </tr>
+                <tr>
+                    <td>Код подтверждения</td>
+                    <td><input class="code" name="code" type="text" placeholder="1234" required> <button id="sendCode2" type="button"><img src="../images/mail.png"></button></td>
+                </tr>
+            </table>
+            <button class="submit-btn" type="submit">Подтвердить</button>
+        </form>
+        <div class="message" id="m3"></div>
+    </div>
+    </div>
+
+</div>
+
+    {{> footer}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let height = Math.max(
+                    document.body.scrollHeight, document.documentElement.scrollHeight,
+                    document.body.offsetHeight, document.documentElement.offsetHeight,
+                    document.body.clientHeight, document.documentElement.clientHeight
+            );
+            let footer = $("#Footer").css('height').replace("px", "");
+            $("#Content").css("min-height", height - footer - 10 + "px");
+        });
+
+
+        function openTab(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                $(tabcontent[i]).fadeOut(300); //.style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            $(document.getElementById(tabName)).fadeIn(300); //.style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+
+
+
+    // log in
+
+    $(document.forms['login-form']).submit(function(e) {
+        const username = e.target.my_username.value;
+        const password = e.target.my_password.value;
+        var message = $("#m1");
+        message.removeClass("ErrorMessage SuccessMessage");
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: JSON.stringify({username, password}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                window.location.replace("/users/" + data.user);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // send code for email confirmation
+
+    $("#sendCode1").click(function(e) {
+        const email = e.target.parentElement.form.email.value;
+        var message = $("#m2");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (!email) {
+            message.addClass("ErrorMessage");
+            message.text("Необходимо ввести адрес электронной почты!");
+            return false;
+        }
+        console.log("send to " + email);
+        $.ajax({
+            type: "POST",
+            url: "/sendcodeforemailconfirmation",
+            data: JSON.stringify({email}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                message.addClass("SuccessMessage");
+                message.text(data.message);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // registration
+
+    $(document.forms['registration-form']).submit(function(e) {
+        const username = e.target.username.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        const confirm_password = e.target.confirm_password.value;
+        const code = e.target.code.value;
+        var message = $("#m2");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (password !== confirm_password) {
+            message.addClass("ErrorMessage");
+            message.text("Пароли не совпадают!");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/registration",
+            data: JSON.stringify({username, email, password, code}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                window.location.replace("/users/" + data.user);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // send code for password recovery
+
+    $("#sendCode2").click(function(e) {
+        const username = e.target.parentElement.form.username.value;
+        var message = $("#m3");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (!username) {
+            message.addClass("ErrorMessage");
+            message.text("Необходимо ввести адрес электронной почты!");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/sendcodeforpasswordrecovery",
+            data: JSON.stringify({username}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                message.addClass("SuccessMessage");
+                message.text(data.message);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // password recovery
+
+    $(document.forms['password-recovery-form']).submit(function(e) {
+        const username = e.target.username.value;
+        const password = e.target.password.value;
+        const confirm_password = e.target.confirm_password.value;
+        const code = e.target.code.value;
+        var message = $("#m3");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (password !== confirm_password) {
+            message.addClass("ErrorMessage");
+            message.text("Пароли не совпадают!");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/recoverpassword",
+            data: JSON.stringify({username, password, code}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                window.location.replace("/users/" + data.user);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    </script>
+</body>
+</html>

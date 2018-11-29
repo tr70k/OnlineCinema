@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Добавление фильма</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 730px;
+        }
+        #Menu {
+            right: 10px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 10px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+
+
+
+        #add-movie-form {
+            columns: 2;
+            background-color: #262626;
+            padding: 10px 10px 30px 10px;
+            margin-bottom: 10px;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        #btns {
+            left: 0px;
+            bottom: 10px;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+        }
+
+        #getmoviedata1 {
+            margin-left: 67px;
+        }
+        #getmoviedata2 {
+            margin-left: 30px;
+        }
+
+        td:first-child {
+            width: 200px;
+        }
+        td:last-child {
+            width: 250px;
+        }
+        table#table2 td:first-child {
+            width: 110px;
+        }
+        table#table2 td:last-child {
+            width: 405px;
+        }
+        td {
+            position: relative;
+            border-bottom: 3px solid transparent;
+        }
+        td input {
+            width: 100%;
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            background-color: #333333;
+            padding: 0px 10px 0px 10px;
+            color: lightgrey;
+            font-size: 14px;
+        }
+        td select, td textarea {
+            width: 100%;
+            height: 170px;
+            border-radius: 15px;
+            border: none;
+            background-color: #333333;
+            padding: 0px 10px 0px 10px;
+            color: lightgrey;
+            font-size: 14px;
+            resize: none;
+        }
+        td select::-webkit-scrollbar-thumb,
+        td textarea::-webkit-scrollbar-thumb {
+            background-color: #1a1a1a;
+        }
+        div.message {
+            width: 100%;
+            margin-bottom: 10px;
+            height: 50px;
+            text-align: center;
+        }
+        div.message.ErrorMessage {
+            color: red;
+        }
+        div.message.SuccessMessage {
+            color: green;
+        }
+        div.message a {
+            display: inline-block;
+            color: lightgrey;
+            background-color: #333333;
+            padding: 2px 4px;
+            margin-top: 2px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 300ms;
+        }
+        div.message a:hover {
+            color: whitesmoke;
+            background-color: dodgerblue;
+        }
+
+        .btn {
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 300ms;
+            background-color: #333333;
+            color: lightgrey;
+            padding: 0px 10px;
+            font-size: 15px;
+        }
+        .btn:hover {
+            background-color: dodgerblue;
+        }
+    </style>
+</head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+<div id="Content">
+    <div id="Title"><h2>Добавление фильма</h2></div>
+    {{> menu this}}
+
+<form id="add-movie-form" name="add-movie-form">
+    <table>
+        <tr>
+            <td>Название (ru)</td>
+            <td><input name="title" type="text" placeholder="Игра престолов" required></td>
+        </tr>
+        <tr><td/><td><button id="getmoviedata1" class="btn" type="button">Получить информацию</button></td></tr>
+        <tr>
+            <td>IMDb id</td>
+            <td><input name="imdb_id" type="text" placeholder="tt0944947" required></td>
+        </tr>
+        <tr>
+            <td>Кинопоиск id</td>
+            <td><input name="kinopoisk_id" type="text" placeholder="464963" required></td>
+        </tr>
+        <tr><td/><td><button id="getmoviedata2" class="btn" type="button">Получить информацию по id</button></td></tr>
+        <tr>
+            <td>URL адрес</td>
+            <td><input name="url" type="text" placeholder="game-of-thrones-2011" required></td>
+        </tr>
+        <tr>
+            <td>Название (en)</td>
+            <td><input name="title_orig" type="text" placeholder="Game of Thrones" required></td>
+        </tr>
+        <tr>
+            <td>Год выхода</td>
+            <td><input name="year" type="text" placeholder="2011" required></td>
+        </tr>
+        <tr>
+            <td>Сериал - 1, фильм - 0</td>
+            <td><input name="is_multiseries" type="text" placeholder="1" required></td>
+        </tr>
+        <tr>
+            <td>Постер</td>
+            <td><input name="poster" type="text" placeholder="https://m.media-amazon.com/images/M/MV5BMjE3NTQ1NDg1Ml5BMl5BanBnXkFtZTgwNzY2NDA0MjI@._V1_SX300.jpg" required></td>
+        </tr>
+    </table>
+    <br>
+    <table id="table2">
+        <tr>
+            <td>Жанр</td>
+            <td><select name="genres" multiple required>
+                <option value="Anime">Аниме</option>
+                <option value="Biography">Биографический</option>
+                <option value="Action">Боевик</option>
+                <option value="Western">Вестерн</option>
+                <option value="War">Военный</option>
+                <option value="Detective">Детектив</option>
+                <option value="Children">Детский</option>
+                <option value="Documentary">Документальный</option>
+                <option value="Drama">Драма</option>
+                <option value="History">Исторический</option>
+                <option value="Comics">Кинокомикс</option>
+                <option value="Comedy">Комедия</option>
+                <option value="Concert">Концерт</option>
+                <option value="Short">Короткометражный</option>
+                <option value="Crime">Криминал</option>
+                <option value="Melodrama">Мелодрама</option>
+                <option value="Mystery">Мистика</option>
+                <option value="Music">Музыка</option>
+                <option value="Animation">Мультфильм</option>
+                <option value="Musical">Мюзикл</option>
+                <option value="Sci-Fi">Научно-популярный</option>
+                <option value="Adventure">Приключения</option>
+                <option value="Reality-TV">Реалити-шоу</option>
+                <option value="Family">Семейный</option>
+                <option value="Sport">Спорт</option>
+                <option value="Talk-Show">Ток-шоу</option>
+                <option value="Thriller">Триллер</option>
+                <option value="Horror">Ужасы</option>
+                <option value="Fantastic">Фантастика</option>
+                <option value="Film-Noir">Фильм-нуар</option>
+                <option value="Fantasy">Фэнтези</option>
+                <option value="Erotic">Эротика</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Описание (ru)</td>
+            <td><textarea name="description" placeholder="К концу подходит время благоденствия, и лето, длившееся почти десятилетие, угасает. Вокруг средоточия власти Семи королевств, Железного трона, зреет заговор, и в это непростое время король решает искать поддержки у друга юности Эддарда Старка. В мире, где все - от короля до наемника - рвутся к власти, плетут интриги и готовы вонзить нож в спину, есть место и благородству, состраданию и любви. Между тем, никто не замечает пробуждение тьмы из легенд далеко на Севере - и лишь Стена защищает живых к югу от нее." required></textarea></td>
+        </tr>
+    </table>
+    <div id="btns"><button class="btn" type="submit">Добавить</button>
+        <button class="btn" type="reset">Очистить</button></div>
+</form>
+    <div class="message" id="m1"></div>
+</div>
+
+{{> footer}}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let height = Math.max(
+                document.body.scrollHeight, document.documentElement.scrollHeight,
+                document.body.offsetHeight, document.documentElement.offsetHeight,
+                document.body.clientHeight, document.documentElement.clientHeight
+        );
+        let footer = $("#Footer").css('height').replace("px", "");
+        $("#Content").css("min-height", height - footer - 10 + "px");
+    });
+
+    // get movie data by titles
+
+    $("#getmoviedata1").click(function(e) {
+        const title = e.target.form.title.value;
+        var message = $("#m1");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (!title) {
+            message.addClass("ErrorMessage");
+            message.text("Необходимо заполнить \"Название!\"");
+            return false;
+        }
+        message.text("Получаем информацию...");
+        $.ajax({
+            type: "POST",
+            url: "/getmoviedata",
+            data: JSON.stringify({title}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function({data}, statusCode) {
+                message.addClass("SuccessMessage");
+                // console.log(data);
+                message.text(data.message);
+                e.target.form.title.value = data.title;
+                e.target.form.imdb_id.value = data.imdb_id;
+                e.target.form.kinopoisk_id.value = data.kinopoisk_id;
+                e.target.form.title_orig.value = data.title_orig;
+                e.target.form.url.value = data.url;
+                e.target.form.year.value = data.year;
+                var options = e.target.form.genres.options;
+                var genres = data.genres;
+                for (var i = 0; i < options.length; i++) {
+                    options[i].selected = genres.indexOf(options[i].text) + 1;
+                }
+                e.target.form.is_multiseries.value = data.is_multiseries;
+                e.target.form.poster.value = data.poster;
+                e.target.form.description.value = data.description;
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // get movie data by imdb id and kinopoisk id
+
+    $("#getmoviedata2").click(function(e) {
+        const imdb_id = e.target.form.imdb_id.value;
+        const kinopoisk_id = e.target.form.kinopoisk_id.value;
+        var message = $("#m1");
+        message.removeClass("ErrorMessage SuccessMessage");
+        if (!imdb_id || !kinopoisk_id) {
+            message.addClass("ErrorMessage");
+            message.text("Необходимо заполнить \"IMDb id\" и \"Кинопоиск id\"!");
+            return false;
+        }
+        message.text("Получаем информацию...");
+        $.ajax({
+            type: "POST",
+            url: "/getmoviedata",
+            data: JSON.stringify({imdb_id, kinopoisk_id}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function({data}, statusCode) {
+                message.addClass("SuccessMessage");
+                // console.log(data);
+                message.text(data.message);
+                e.target.form.title.value = data.title;
+                e.target.form.imdb_id.value = data.imdb_id;
+                e.target.form.kinopoisk_id.value = data.kinopoisk_id;
+                e.target.form.title_orig.value = data.title_orig;
+                e.target.form.url.value = data.url;
+                e.target.form.year.value = data.year;
+                var options = e.target.form.genres.options;
+                var genres = data.genres;
+                for (var i = 0; i < options.length; i++) {
+                    options[i].selected = genres.indexOf(options[i].text) + 1;
+                }
+                e.target.form.is_multiseries.value = data.is_multiseries;
+                e.target.form.poster.value = data.poster;
+                e.target.form.description.value = data.description;
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+    // add movie
+
+    $(document.forms['add-movie-form']).submit(function(e) {
+        const title = e.target.title.value;
+        const imdb_id = e.target.imdb_id.value;
+        const kinopoisk_id = e.target.kinopoisk_id.value;
+        const title_orig = e.target.title_orig.value;
+        const url = e.target.url.value;
+        const year = e.target.year.value;
+        var options = e.target.genres.options;
+        var genres = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) genres.push(options[i].text);
+        }
+        const is_multiseries = e.target.is_multiseries.value;
+        const poster = e.target.poster.value;
+        const description = e.target.description.value;
+        var message = $("#m1");
+        message.removeClass("ErrorMessage SuccessMessage");
+        message.text("Сохраняем...");
+        $.ajax({
+            type: "POST",
+            url: "/addmovie",
+            data: JSON.stringify({title, title_orig, url, imdb_id, kinopoisk_id, year, genres, is_multiseries, poster, description}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                message.addClass("SuccessMessage");
+                message.html(data.message);
+            },
+            error: function(data, statusCode) {
+                message.addClass("ErrorMessage");
+                message.text(data.responseJSON.message);
+            }
+        });
+        return false;
+    });
+
+</script>
+</body>
+</html>

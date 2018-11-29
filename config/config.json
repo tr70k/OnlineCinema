@@ -1,0 +1,27 @@
+{
+  "port": 3000,
+  "mongoose": {
+    "uri": "mongodb://localhost:27017/your_db_title"
+  },
+  "session": {
+    "secret": "your_secret_code",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
+  },
+  "nodemailer": {
+    "user": "your_email@gmail.com",
+    "pass": "your_password"
+  },
+  "omdbapi": {
+    "apikey": "your_omdbapi_api_key"
+  },
+  "hdbaza": {
+    "user_hash": "your_hdbaza_user_hash",
+    "player_style": "your_hdbaza_player_style"
+  },
+  "admins": ["admin"]
+}

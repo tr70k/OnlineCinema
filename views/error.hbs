@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 730px;
+        }
+        #Menu {
+            right: 10px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 10px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+
+        #description {
+            padding: 50px 0px 10px 520px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        #description span {
+            position: absolute;
+            top: 110px;
+            left: 250px;
+            font-size: 155px;
+            font-weight: 200;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night #description span {
+            color: whitesmoke;
+        }
+        body.Day #description span {
+            color: #262626;
+        }
+        #homepage {
+            display: inline-block;
+            height: 30px;
+            margin-top: 20px;
+            line-height: 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 300ms;
+            background-color: #262626;
+            color: lightgrey;
+            padding: 0px 10px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        /*body.Night #homepage {*/
+            /*background-color: #262626;*/
+            /*color: lightgrey;*/
+        /*}*/
+        /*body.Day #homepage {*/
+            /*background-color: #262626;*/
+            /*color: lightgrey;*/
+        /*}*/
+        #homepage:hover {
+            background-color: dodgerblue;
+        }
+        </style>
+        </head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+    <div id="Content">
+        <div id="Title"><h2>{{title}}</h2></div>
+        {{> menu this}}
+
+        <div id="description">
+            <span>{{number}}</span>
+            <h2>{{error}}</h2>
+            <h3>{{url}}</h3>
+            <a href="/" id="homepage">Главная страница</a>
+        </div>
+
+    </div>
+
+    {{> footer}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let height = Math.max(
+                    document.body.scrollHeight, document.documentElement.scrollHeight,
+                    document.body.offsetHeight, document.documentElement.offsetHeight,
+                    document.body.clientHeight, document.documentElement.clientHeight
+            );
+            let footer = $("#Footer").css('height').replace("px", "");
+            $("#Content").css("min-height", height - footer - 10 + "px");
+        });
+    </script>
+</body>
+</html>

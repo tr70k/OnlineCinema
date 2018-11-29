@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Главная</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+            overflow-y: scroll;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 730px;
+        }
+        #Menu {
+            right: 10px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 10px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+
+
+        .MoviePoster {
+            max-width: 206px;
+            vertical-align: middle;
+        }
+        .MovieItem {
+            display: inline-block;
+            vertical-align: top;
+            width: 206px;
+            text-align: center;
+            margin: 0px 8px 10px 0px;
+            position: relative;
+        }
+        .Play {
+            width: 100%;
+            /*height: 100%;*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+            padding: 102px 60px 102px 60px;
+            transition: 300ms;
+            background-color: rgba(38, 38, 38, 0.3);
+        }
+        .MovieItem:hover .MovieType,
+        .MovieItem:hover .Play {
+            opacity: 1;
+        }
+        .MovieLink {
+            display: block;
+            text-decoration: none;
+            width: 100%;
+        }
+        .MovieItemBackground {
+            overflow: hidden;
+            height: 290px;
+            line-height: 284px;
+            width: 100%;
+            background-color: #262626;
+        }
+        .MovieType {
+            z-index: 1;
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+            padding: 3px;
+            background-color: #262626;
+            transition: 300ms;
+            cursor: pointer;
+            opacity: 0;
+        }
+        .MovieTitle {
+            /*color: whitesmoke;*/
+            transition: 300ms;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            transition: 300ms;
+        }
+        body.Night .MovieTitle {
+            color: whitesmoke;
+        }
+        body.Day .MovieTitle {
+            color: #262626;
+        }
+        .MovieTitle::after {
+            position: absolute;
+            content: '';
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            /*background: linear-gradient(to right, transparent, #1a1a1a);*/
+            transition: 300ms;
+        }
+        body.Night .MovieTitle::after {
+            background: linear-gradient(to right, transparent, #1a1a1a);
+        }
+        body.Day .MovieTitle::after {
+            background: linear-gradient(to right, transparent, lightgrey);
+        }
+        .MovieItem:hover .MovieTitle {
+            color: dodgerblue !important;
+        }
+        .MovieDescription {
+            display: none;
+            z-index: 2;
+            position: absolute;
+            top: 0;
+            width: 436px;
+            height: 290px;
+        }
+        .MovieDescription div {
+            position: relative;
+            height: 290px;
+            background-color: #262626;
+            text-align: left;
+            padding: 5px 10px;
+            overflow: hidden;
+        }
+        .MovieItem:nth-child(5n+1) .MovieDescription,
+        .MovieItem:nth-child(5n+2) .MovieDescription,
+        .MovieItem:nth-child(5n+3) .MovieDescription {
+            left: 207px;
+            padding-left: 11px;
+        }
+        .MovieItem:nth-child(5n+4) .MovieDescription,
+        .MovieItem:nth-child(5n+5) .MovieDescription {
+            right: 207px;
+            padding-right: 11px;
+        }
+        .MovieDescription div::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 60px;
+            right: 0px;
+            background: linear-gradient(to top, #262626, transparent);
+        }
+        .MovieDescription::before {
+            content: '';
+            z-index: 1;
+            position: absolute;
+            top: 130px;
+            height: 18px;
+            width: 18px;
+            background-color: #262626;
+            border-bottom-right-radius: 100%;
+        }
+        .MovieItem:nth-child(5n+1) .MovieDescription:before,
+        .MovieItem:nth-child(5n+2) .MovieDescription:before,
+        .MovieItem:nth-child(5n+3) .MovieDescription:before {
+            transform: rotate(-45deg);
+            left: 3px;
+        }
+        .MovieItem:nth-child(5n+4) .MovieDescription:before,
+        .MovieItem:nth-child(5n+5) .MovieDescription:before {
+            transform: rotate(135deg);
+            right: 3px;
+        }
+        .MovieDescription span {
+            color: dodgerblue;
+        }
+        .MovieGenre {
+            display: inline-block;
+            margin: 5px 0px;
+        }
+
+
+
+
+        .ChangePage {
+            display: block;
+            position: fixed;
+            margin-top: -32px;
+            height: 64px;
+            width: 64px;
+            top: 50%;
+            border-radius: 50%;
+            background: #262626;
+            transition: 300ms;
+            z-index: 2;
+        }
+        .ChangePage:hover {
+            background: dodgerblue;
+        }
+        .PagePrev {
+            left: 10px;
+        }
+        .PageNext {
+            right: 10px;
+        }
+        .PagePrev img {
+            height: 50px;
+            margin: 7px 10px 7px 4px;
+            transform: rotate(180deg);
+        }
+        .PageNext img {
+            height: 50px;
+            margin: 7px 4px 7px 10px;
+        }
+
+        .Navigation {
+            margin: 3px 0px 13px 0px;
+            text-align: center;
+        }
+        .ChangePageLittle {
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            background: #262626;
+            vertical-align: bottom;
+            transition: 300ms;
+        }
+        .ChangePageLittle:hover {
+            background-color: dodgerblue;
+        }
+        .PageLittlePrev img {
+            height: 20px;
+            margin: 5px 6px 5px 4px;
+            transform: rotate(180deg);
+        }
+        .PageLittleNext img {
+            height: 20px;
+            margin: 5px 4px 5px 6px;
+        }
+        .PageInput {
+            display: inline-block;
+            margin: 0px 10px;
+            font-size: 20px;
+            line-height: 24px;
+            font-weight: 200;
+            /*color: lightgrey;*/
+            transition: 300ms;
+        }
+        body.Night .PageInput {
+            color: lightgrey;
+        }
+        body.Day .PageInput {
+            color: #262626;
+        }
+        .PageInput input {
+            height: 30px;
+            width: 40px;
+            border: none;
+            color: lightgrey;
+            font-size: 22px;
+            font-style: italic;
+            text-align: center;
+            background: #262626;
+            border-radius: 15px;
+            transition: 300ms;
+        }
+
+        #MenuTrigger {
+            display: inline-block;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+            background: #262626;
+            transition: 300ms;
+            vertical-align: bottom;
+            cursor: pointer;
+        }
+        #MenuTrigger img {
+            margin-top: 3px;
+            vertical-align: text-top;
+            display: inline-block;
+            height: 24px;
+        }
+        #MenuTrigger:hover {
+            background: dodgerblue;
+        }
+
+
+        /* S E T T I N G S   F O R M */
+        .checkbox input {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            margin: 10px 0 0 20px;
+        }
+        .checkbox__text {
+            position: relative;
+            padding: 0 0 0 46px;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+        .checkbox__text:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 32px;
+            height: 18px;
+            padding: 1px;
+            border-radius: 9px;
+            background-color: #1a1a1a;
+            /*background-color: whitesmoke;*/
+            transition: 300ms;
+        }
+        .checkbox__text:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            background-color: lightgrey;
+            /*background-color: rgba(0, 0, 0, 0.3);*/
+            transition: 300ms;
+        }
+        .checkbox input:checked + .checkbox__text:after {
+            left: 16px;
+            background-color: dodgerblue;
+        }
+        /**/
+        .radio input {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            margin: 10px 0 0 7px;
+        }
+        .radio__text {
+            position: relative;
+            padding: 0 0 0 30px;
+            cursor: pointer;
+        }
+        .radio__text:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 18px;
+            height: 18px;
+            /*border: 1px solid rgba(0, 0, 0, 0.3);*/
+            border-radius: 9px;
+            background-color: #1a1a1a;
+            /*background: whitesmoke;*/
+        }
+        .radio__text:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 7px;
+            background-color: lightgrey;
+            /*background-color: rgba(0, 0, 0, 0.3);*/
+            transition: 300ms;
+        }
+        .radio input:checked + .radio__text:after {
+            background-color: dodgerblue;
+        }
+
+        /**/
+        #Settings {
+            /*margin: 10px 10px 10px 0px;*/
+            margin-bottom: 10px;
+            width: 1080px;
+            display: none; /*new!*/
+            /*position: absolute;*/
+            /*z-index: 2;*/
+            /*border: 1px solid green*/
+            /*background-color: #1a1a1a;*/
+        }
+        #Settings h3 {
+            color: whitesmoke !important;
+        }
+        .Property {
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px;
+            background-color: #262626;
+        }
+        .PropertyGenre {
+            width: 1079px;
+            margin-bottom: 10px;
+        }
+        .PropertyGenre .Columns {
+            column-count: 5;
+        }
+        .PropertySort {
+            /*width: 861px;*/
+            width: 642px;
+            margin: 0px 8px 10px 0px;
+        }
+        .PropertySort .Columns {
+            column-count: 3;
+        }
+        .PropertySort .SubRadio {
+            padding-left: 16px;
+        }
+        .PropertyType {
+            /*width: 424px;*/
+            height: 112px;
+            width: 207px;
+            margin: 0px 8px 10px 0px;
+        }
+        .PropertyCount {
+            /*width: 861px;*/
+            height: 112px;
+            width: 206px;
+            /*width: 642px;*/
+        }
+        .PropertyCount .Columns {
+            column-count: 2;
+        }
+        #RefreshButton,
+        #CloseButton {
+            display: inline-block;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 200;
+            height: 30px;
+            width: 130px;
+            border: none;
+            color: lightgrey;
+            font-size: 20px;
+            background: #262626;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 300ms;
+            margin-left: 912px;
+        }
+        #CloseButton {
+            width: 30px;
+            margin-left: 3px;
+        }
+        #RefreshButton:hover,
+        #CloseButton:hover {
+            background-color: dodgerblue;
+        }
+        #RefreshButton img,
+        #CloseButton img {
+            vertical-align: text-top;
+            margin-top: 7px;
+            display: inline-block;
+            height: 16px;
+        }
+    </style>
+</head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+
+{{#if prev_page}}<a class="ChangePage PagePrev" href="{{page_url}}{{prev_page}}"><img src="../images/arrow.png"/></a>{{/if}}
+{{#if next_page}}<a class="ChangePage PageNext" href="{{page_url}}{{next_page}}"><img src="../images/arrow.png"/></a>{{/if}}
+
+<div id="Content">
+    <div id="Title"><h2>{{title}} <a id="MenuTrigger"><img src="../images/menu-trigger.png"/></a></h2></div>
+    {{> menu this}}
+    <form id="Settings" name="settings-form">
+        <div class="Property PropertyGenre">
+            <h3>Жанр:</h3>
+            {{#if settings_genres.length}}
+                <div class="Columns">
+                    {{#each settings_genres}}
+                        <label class="checkbox">
+                            <input class="Genres" type="checkbox" value="{{this.title_orig}}" {{#if this.selected}}checked{{/if}}/>
+                            <div class="checkbox__text">{{this.title}}</div>
+                        </label>
+                    {{/each}}
+                </div>
+            {{else}}
+                Nothing found :(
+            {{/if}}
+        </div>
+
+        <div class="Property PropertySort">
+            <h3>Сортировка:</h3>
+            <div class="Columns">
+                <label class="checkbox">
+                    <input name="sortType" type="radio" value="release" {{#if_equal settings_sort 1}}checked{{/if_equal}}/>
+                    <div class="checkbox__text">По дате выхода</div>
+                    <div class="SubRadio">
+                        <label class="radio">
+                            <input name="sort_release" type="radio" value="" {{#if_equal settings_sort_type -1}}checked{{/if_equal}}/>
+                            <div class="radio__text">Сначала новые</div>
+                        </label>
+                        <label class="radio">
+                            <input name="sort_release" type="radio" value="desc" {{#if_equal settings_sort_type 1}}checked{{/if_equal}}/>
+                            <div class="radio__text">Сначала старые</div>
+                        </label>
+                    </div>
+                </label>
+                <label class="checkbox">
+                    <input name="sortType" type="radio" value="added" {{#if_equal settings_sort 0}}checked{{/if_equal}}/>
+                    <div class="checkbox__text">По дате добавления</div>
+                    <div class="SubRadio">
+                        <label class="radio">
+                            <input name="sort_added" type="radio" value="" {{#if_equal settings_sort_type -1}}checked{{/if_equal}}/>
+                            <div class="radio__text">Сначала новые</div>
+                        </label>
+                        <label class="radio">
+                            <input name="sort_added" type="radio" value="desc" {{#if_equal settings_sort_type 1}}checked{{/if_equal}}/>
+                            <div class="radio__text">Сначала старые</div>
+                        </label>
+                    </div>
+                </label>
+                <label class="checkbox">
+                    <input name="sortType" type="radio" value="alphabetically" {{#if_equal settings_sort 2}}checked{{/if_equal}}/>
+                    <div class="checkbox__text">По названию</div>
+                    <div class="SubRadio">
+                        <label class="radio">
+                            <input name="sort_alphabetically" type="radio" value="" {{#if_equal settings_sort_type -1}}checked{{/if_equal}}/>
+                            <div class="radio__text">От А до Я</div>
+                        </label>
+                        <label class="radio">
+                            <input name="sort_alphabetically" type="radio" value="desc" {{#if_equal settings_sort_type 1}}checked{{/if_equal}}/>
+                            <div class="radio__text">От Я до А</div>
+                        </label>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="Property PropertyType">
+            <h3>Тип:</h3>
+            <div class="Columns">
+                <label class="radio">
+                    <input name="type" type="radio" value="" {{#if_equal settings_type 0}}checked{{/if_equal}}/>
+                    <div class="radio__text">Фильм или сериал</div>
+                </label>
+                <label class="radio">
+                    <input name="type" type="radio" value="movie" {{#if_equal settings_type 1}}checked{{/if_equal}}/>
+                    <div class="radio__text">Фильм</div>
+                </label>
+                <label class="radio">
+                    <input name="type" type="radio" value="series" {{#if_equal settings_type 2}}checked{{/if_equal}}/>
+                    <div class="radio__text">Сериал</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="Property PropertyCount">
+            <h3>Кол-во на странице:</h3>
+            <div class="Columns">
+                <label class="radio">
+                    <input name="count" type="radio" value="10" {{#if_equal settings_count 10}}checked{{/if_equal}}/>
+                    <div class="radio__text">10</div>
+                </label>
+                <label class="radio">
+                    <input name="count" type="radio" value="20" {{#if_equal settings_count 20}}checked{{/if_equal}}/>
+                    <div class="radio__text">20</div>
+                </label>
+                <label class="radio">
+                    <input name="count" type="radio" value="30" {{#if_equal settings_count 30}}checked{{/if_equal}}/>
+                    <div class="radio__text">30</div>
+                </label>
+                <label class="radio">
+                    <input name="count" type="radio" value="40" {{#if_equal settings_count 40}}checked{{/if_equal}}/>
+                    <div class="radio__text">40</div>
+                </label>
+                <label class="radio">
+                    <input name="count" type="radio" value="50" {{#if_equal settings_count 50}}checked{{/if_equal}}/>
+                    <div class="radio__text">50</div>
+                </label>
+            </div>
+        </div>
+
+
+        <a id="RefreshButton">Обновить <img src="../images/refresh.png"></a>
+        <a id="CloseButton"><img src="../images/close.png"></a>
+
+    </form>
+    {{#if movies.length}}
+        <div>
+            {{#each movies}}
+                <div class="MovieItem">
+                    <a class="MovieLink" href="movies/{{this.url}}">
+                        <div class="MovieItemBackground">
+                            <img class="MoviePoster" src="{{this.poster}}" onerror="this.src='../images/default-movie.png'; this.style.marginBottom='50px'"/>
+                            <img class="Play" src="../images/play.png">
+                        </div>
+                        <div class="MovieTitle">{{this.title}}</div>
+                    </a>
+                    <div class="MovieDescription">
+                        <div>
+                            {{#if this.is_multiseries}}Сериал{{else}}Фильм{{/if}} <span>"{{this.title}}"</span> /
+                            "{{this.title_orig}}" ({{this.year}})<br>
+                            <span class="MovieGenre">{{this.genre}}</span><br>
+                            {{this.description}}
+                        </div>
+                    </div>
+                    <img class="MovieType" src="../images/menu-trigger.png"/>
+                </div>
+            {{/each}}
+        </div>
+        <div class="Navigation">
+            {{#if prev_page}}<a class="ChangePageLittle PageLittlePrev" href="{{page_url}}{{prev_page}}"><img src="../images/arrow.png"/></a>{{/if}}
+            <form name="page-value" class="PageInput">страница <input name="val" value="{{page}}"> из {{count}}</form>
+            {{#if next_page}}<a class="ChangePageLittle PageLittleNext" href="{{page_url}}{{next_page}}"><img src="../images/arrow.png"/></a>{{/if}}
+        </div>
+    {{else}}
+        <h2>Nothing found :(</h2>
+    {{/if}}
+</div>
+{{> footer}}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let height = Math.max(
+                document.body.scrollHeight, document.documentElement.scrollHeight,
+                document.body.offsetHeight, document.documentElement.offsetHeight,
+                document.body.clientHeight, document.documentElement.clientHeight
+        );
+        let footer = $("#Footer").css('height').replace("px", "");
+        $("#Content").css("min-height", height - footer - 10 + "px");
+
+        $(".MovieType").mouseover(function (e) {
+            $(e.target.parentElement.children[1]).animate({ width: "toggle" }, 300);
+            e.target.style.backgroundColor = "dodgerblue";
+        });
+
+        $(".MovieType").mouseout(function (e) {
+            $(e.target.parentElement.children[1]).animate({ width: "toggle" }, 300);
+            e.target.style.backgroundColor = "#262626";
+        });
+
+        $(document.forms['page-value']).submit(function(e) {
+            let url = "{{page_url}}".replace(/&#x3D;/g, "=").replace(/&amp;/g,"&") + e.target.val.value
+            if (e.target.val.value) window.location.replace(url);
+            return false;
+        });
+        $("#RefreshButton").click(function (e) {
+            let form = $(document.forms['settings-form'])[0];
+            // console.log(form);
+            let find = ($("#FindInput") && $("#FindInput")[0].value) ?
+                    $("#FindInput")[0].value.trim().replace(/\s+/g, "_").toLowerCase().replace(/[&\?\*\.]/g, '') : "";
+            let type = form.type.value;
+            let sort = form.sortType.value;
+            let sort_type = form["sort_" + sort].value;
+            let count = form.count.value;
+
+            // console.log("sort:", form.sortType.value);
+            // console.log("sort type:", form["sort_" + form.sortType.value].value);
+            // console.log("type:", form.type.value);
+            // console.log("count:", form.count.value);
+
+            let data = $("input.Genres:checked");
+            let genres = [];
+            for (let i = 0; i < data.length; i++) {
+                genres[i] = data[i].value;
+            }
+            // console.log(genres.join('.'));
+            let url_pass = ((find.length) ? "&find=" + find : "")
+                    + ((genres.length) ? "&genre=" + genres.join('.') : "")
+                    + ((type) ? "&type=" + type : "")
+                    + ((sort != "added") ? "&sort=" + sort : "")
+                    + ((sort_type) ? "&stype=desc" : "")
+                    + ((count != 20) ? "&count=" + count : "");
+            // console.log(url_pass.replace("&", "?"));
+            if (url_pass.length) window.location.replace(url_pass.replace("&", "?"));
+            else window.location.replace("/");
+        });
+        $("#MenuTrigger").click(function (e) {
+            $('#Settings')[0].reset();
+            $("#Settings").slideToggle("300ms");
+        });
+        $("#CloseButton").click(function (e) {
+            $('#Settings')[0].reset();
+            $("#Settings").slideToggle("300ms");
+        });
+    });
+</script>
+</body>
+</html>

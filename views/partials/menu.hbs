@@ -1,0 +1,86 @@
+<style>
+    #Menu {
+        position: absolute;
+        top: 10px;
+        cursor: default;
+    }
+    .NavLink {
+        display: inline-block;
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        background: #262626;
+        margin-left: 5px;
+        text-align: center;
+        transition: 300ms;
+        cursor: pointer;
+    }
+    .NavLink:hover {
+        background-color: dodgerblue;
+    }
+    #FindButton img,
+    .NavLink img {
+        height: 18px;
+        margin-top: 5px;
+    }
+    #FindInput {
+        display: inline-block;
+        height: 30px;
+        width: 230px;
+        background-color: #262626;
+        border-radius: 15px;
+        border: none;
+        vertical-align: top;
+        margin-right: -30px;
+        padding: 0px 40px 0px 10px;
+        color: lightgrey;
+        font-size: 14px;
+    }
+    #Find {
+        display: inline-block;
+        vertical-align: top;
+    }
+    #FindButton {
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        background-color: #262626;
+        text-align: center;
+        transition: 300ms;
+        display: inline-block;
+        cursor: pointer;
+        border: none;
+    }
+    #FindButton:hover {
+        background-color: dodgerblue;
+    }
+</style>
+
+    <nav id="Menu">
+        <form id="Find" name="find-form"><input id="FindInput" name="FindInput" {{#if find}}value="{{find}}"{{/if}}><button id="FindButton" type="submit"><img src="../../images/find.png"></button></form>
+        <a class="NavLink" href="/"><img src="../../images/home.png"></a>
+        <a class="NavLink" onclick="changeTheme()"><img id="theme" src="../../images/{{#if night}}{{else}}not-{{/if}}night.png"></a>
+        {{#if user}}
+            <a class="NavLink" href="/users/{{user}}"><img src="../../images/profile.png"></a>
+        {{else}}
+            <a class="NavLink" href="/login"><img src="../../images/login.png"></a>
+        {{/if}}
+    </nav>
+
+<script>
+    document.forms['find-form'].onsubmit = function(e) {
+        const find = e.target.FindInput.value.trim().replace(/\s+/g, "_").toLowerCase().replace(/[&\?\*\.]/g, '');
+        if (find.length > 0) window.location.replace("/?find=" + find + "&sort=release");
+        return false;
+    };
+    function changeTheme() {
+        $.ajax({
+            type: "POST",
+            url: "/chengetheme",
+            success: function(data, statusCode) {
+                $("#theme").attr("src", "../images/" + (data.night ? "night.png" : "not-night.png"));
+                $("body").toggleClass('Day Night');
+            }
+        });
+    }
+</script>

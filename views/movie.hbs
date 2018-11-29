@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{title}} / {{title_orig}} ({{year}})</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+        }
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+            color: lightgrey;
+            /*background-color: #1a1a1a;*/
+            transition: 300ms;
+            padding: 0;
+            overflow-y: scroll;
+        }
+        body.Night {
+            /*color: lightgrey;*/
+            background-color: #1a1a1a;
+        }
+        body.Day {
+            /*color: #1a1a1a;*/
+            background-color: lightgrey;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 40px;
+            font-weight: 200;
+            margin: 10px 10px 10px 0px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h2 {
+            color: whitesmoke;
+        }
+        body.Day h2 {
+            color: #262626;
+        }
+        #Title {
+            width: 745px;
+        }
+        #Menu {
+            right: 3px;
+        }
+        #Content {
+            position: relative;
+            width: 1100px;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0px 0px 0px 3px;
+            border-bottom: 1px solid transparent;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 200;
+            margin-bottom: 10px;
+            /*color: whitesmoke;*/
+            transition: 300ms;
+        }
+        body.Night h3 {
+            color: whitesmoke;
+        }
+        body.Day h3 {
+            color: #262626;
+        }
+        ::-webkit-scrollbar-button { width: 0px; height: 0px; }
+        ::-webkit-scrollbar-track { background-color: transparent; }
+        ::-webkit-scrollbar-thumb { border-radius: 5px; background-color: #333333; }
+        ::-webkit-resizer { width: 0px; height: 0px; }
+        ::-webkit-scrollbar{ width: 10px; height: 10px; }
+        ::-webkit-scrollbar-corner { background-color: transparent; }
+
+        #LikeTrigger {
+            display: inline-block;
+            text-align: center;
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+            background: #262626;
+            transition: 300ms;
+            vertical-align: bottom;
+            cursor: pointer;
+        }
+        #LikeTrigger img {
+            height: 20px;
+            margin-top: 5px;
+            vertical-align: top;
+        }
+        #LikeTrigger:hover {
+            background: dodgerblue;
+        }
+
+        span.PropertyTitle {
+            display: inline-block;
+            color: whitesmoke;
+            background-color: #1a1a1a;
+            padding: 2px 4px;
+            margin: 2px 3px 0px 0px;
+            border-radius: 5px;
+        }
+        .Link {
+            display: inline-block;
+            color: lightgrey;
+            background-color: #333333;
+            padding: 2px 4px;
+            margin-top: 2px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: 300ms;
+        }
+        .Link:hover {
+            color: whitesmoke;
+            background-color: dodgerblue;
+        }
+        ul, li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul.Genres, ul.Genres li,
+        ul.Ratings, ul.Ratings li {
+            display: inline;
+        }
+        .Info {
+            width: 300px;
+            background-color: #262626;
+            padding: 10px;
+            margin: 8px 0px 10px 0px;
+        }
+        .Description {
+            width: 782px;
+            text-align: justify;
+            background-color: #262626;
+            padding: 10px;
+            margin: 8px 0px 10px 0px;
+        }
+        .Description div {
+            margin-bottom: 10px;
+        }
+        .Poster {
+            overflow: hidden;
+            display: inline-block;
+            width: 300px;
+            height: 440px;
+            text-align: center;
+            line-height: 436px;
+            background-color: #262626;
+        }
+        .Poster img {
+            max-width: 300px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        .Player {
+            height: 440px;
+            width: 782px;
+            /*border: 1px solid gray;*/
+            border: none;
+            background-color: #262626;
+        }
+
+        .column-1 {
+            display: inline-block;
+            vertical-align: top;
+            width: 300px;
+            margin-right: 8px;
+        }
+        .column-2 {
+            display: inline-block;
+            vertical-align: top;
+            width: 782px;
+        }
+
+
+        #review-form {
+            /*padding: 10px;*/
+            /*background-color: #262626;*/
+            margin-bottom: 10px;
+        }
+        #review-form #warning {
+            display: inline-block;
+            vertical-align: top;
+            width: 600px;
+            font-size: 14px;
+            transition: 300ms;
+        }
+        body.Night #review-form #warning {
+            color: lightgrey;
+        }
+        body.Day #review-form #warning {
+            color: #1a1a1a;
+        }
+        #review-form #btns {
+            display: inline-block;
+            vertical-align: top;
+            width: 177px;
+            text-align: right;
+            margin-top: 5px;
+        }
+        #review-form .btn {
+            height: 30px;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 300ms;
+            background-color: #262626;
+            color: lightgrey;
+            padding: 0px 10px;
+            font-size: 15px;
+        }
+        #review-form .btn:hover {
+            background-color: dodgerblue;
+        }
+
+        #review-form textarea {
+            width: 100%;
+            height: 120px;
+            border-radius: 15px;
+            border: none;
+            background-color: #262626;
+            padding: 0px 10px 0px 10px;
+            color: lightgrey;
+            font-size: 16px;
+            resize: none;
+        }
+        #review-form textarea::-webkit-scrollbar-thumb {
+            background-color: #1a1a1a;
+        }
+
+        .Review {
+            margin-left: 100px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .Review .Text {
+            padding: 5px 10px;
+            margin-top: -5px;
+            background-color: #262626;
+            min-height: 63px;
+            white-space: pre-line;
+            border-radius: 15px;
+        }
+        .Review .Date {
+            font-size: 13px;
+            font-weight: normal;
+        }
+        .Review .ProfilePhoto {
+            display: block;
+            position: absolute;
+            left: -100px;
+            top: 5px;
+            height: 90px;
+            width: 90px;
+            border-radius: 45px;
+            overflow: hidden;
+            background-color: #262626;
+        }
+        .Review .ProfilePhoto img {
+            height: 100%;
+            width: 100%;
+        }
+        .Review .Delete {
+            position: absolute;
+            z-index: 1;
+            right: 0px;
+            top: 0px;
+            height: 26px;
+            width: 26px;
+            background-color: #333333;
+            border-radius: 15px;
+            padding: 5px;
+            cursor: pointer;
+            transition: 300ms;
+        }
+        .Review .Delete img {
+            height: 100%;
+            width: 100%;
+        }
+        .Review .Delete:hover {
+            background-color: dodgerblue;
+        }
+
+    </style>
+</head>
+<body class="{{#if night}}Night{{else}}Day{{/if}}">
+<div id="Content">
+    <div id="Title"><h2><span>{{title}}</span> / {{title_orig}} ({{year}})
+        {{#if user}}<a id="LikeTrigger"><img {{#if is_liked}}src="../images/liked.png"{{else}}src="../images/not-liked.png"{{/if}}/></a>{{/if}}</h2></div>
+    {{> menu this}}
+    <div class="column-1">
+        <div class="Poster"><img src="{{poster}}" onerror="this.src='../../images/default-movie.png'"></div>
+        <ul class="Info">
+            <li><span class="PropertyTitle">Рейтинг IMDb:</span>
+                {{imdb_rating}}/10 ({{imdb_votes}})
+            </li>
+            <li><span class="PropertyTitle">Дата выхода:</span>
+                {{release_date}}
+            </li>
+            <li><span class="PropertyTitle">Страна:</span>
+                {{countries}}
+            </li>
+            <li><span class="PropertyTitle">Жанр:</span>
+                <ul class="Genres">
+                    {{#each genre_titles}}
+                        <li><a class="Link" href="../?genre={{this.title_orig}}">{{this.title}}</a></li>
+                    {{/each}}
+                </ul>
+            </li>
+            <li><span class="PropertyTitle">Тип:</span>
+                {{#if is_multiseries}}Сериал{{else}}Фильм{{/if}}
+            </li>
+            <li><span class="PropertyTitle">Время:</span>
+                {{runtime}}
+            </li>
+            <li><span class="PropertyTitle">Режиссер:</span>
+                {{director}}
+            </li>
+            <li><span class="PropertyTitle">Автор:</span>
+                {{writer}}
+            </li>
+            <li><span class="PropertyTitle">Актёры:</span>
+                {{actors}}
+            </li>
+            <li><span class="PropertyTitle">Награды:</span>
+                {{awards}}
+            </li>
+            <li><span class="PropertyTitle">Ссылки:</span>
+                <a class="Link" href="https://www.imdb.com/title/{{imdb_id}}/" target="_blank">IMDb</a>
+                <a class="Link" href="https://www.kinopoisk.ru/film/{{kinopoisk_id}}/" target="_blank">Кинопоиск</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="column-2">
+        <iframe class="Player" src="{{iframe_url}}" allowfullscreen=""></iframe>
+        <div class="Description">
+            <div><span class="PropertyTitle">Описание (ru):</span>
+                {{description}}
+            </div>
+            <div><span class="PropertyTitle">Описание (en):</span>
+                {{description_en}}
+            </div>
+            {{#if ratings.length}}
+                <div><ul class="Ratings">
+                    {{#each ratings}}
+                        <li><span class="PropertyTitle">{{this.Source}}</span> {{this.Value}}</a></li>
+                    {{/each}}
+                </ul></div>
+            {{/if}}
+        </div>
+        {{#if user}}
+            <form id="review-form" name="review-form">
+            {{#if is_blocked}}
+                <h3>Ваш профиль заблокирован за нарушение правил сайта.</h3>
+            {{else}}
+                <h3>Ваш обзор на {{#if is_multiseries}}сериал{{else}}фильм{{/if}} "{{title}}"</h3>
+                <textarea id="reviewtext" name="text" placeholder="Мне понравилось, потому что.." required>{{text}}</textarea>
+                <div id="warning">Обзор, содержащий мат или оскорбления других участников, будет удален, а профиль пользователя - заблокирован!</div>
+                <div id="btns">
+                    <button class="btn" type="submit">Сохранить</button>
+                    <button class="btn" onclick="return clicked(this);">Удалить</button>
+                </div>
+            </form>
+            {{/if}}
+        {{else}}
+            <h3>Только зарегистрированные пользователи могут оставить обзор.</h3>
+        {{/if}}
+
+        <div id="Reviews">
+        {{#if reviews.length}}
+            <!--<h3>Обзоры на {{#if is_multiseries}}сериал{{else}}фильм{{/if}} "{{title}}"</h3>-->
+            {{#each reviews}}
+                <div class="Review {{#if_equal ../user this.username}}MyReview{{/if_equal}}">
+                    <a class="ProfilePhoto" href="/users/{{this.username}}"><img src="../images/users/{{this.username}}.png" onerror="this.src='../images/default-user.png'; this.style.padding='20px'"></a>
+                    <h3><span>{{this.username}}</span><span class="Date"><span> про </span><a class="Link" href="/movies/{{this.url}}">{{this.title}}</a> {{this.date}}</span></h3>
+                    <div class="Text">{{this.text}}</div>{{#if_equal ../user this.username}}<a class="Delete" onclick="clicked(this)"><img src="../images/close.png"></a>{{/if_equal}}
+                </div>
+            {{/each}}
+        {{/if}}
+        </div>
+    </div>
+</div>
+
+{{> footer}}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let height = Math.max(
+                document.body.scrollHeight, document.documentElement.scrollHeight,
+                document.body.offsetHeight, document.documentElement.offsetHeight,
+                document.body.clientHeight, document.documentElement.clientHeight
+        );
+        let footer = $("#Footer").css('height').replace("px", "");
+        $("#Content").css("min-height", height - footer - 10 + "px");
+
+        $("#LikeTrigger").click(function (e) {
+            let movie_url = window.location.pathname.slice(window.location.pathname.lastIndexOf("/") + 1);
+            $.ajax({
+                type: "POST",
+                url: "/likemovie",
+                data: JSON.stringify({movie_url}),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data, statusCode) {
+                    $("#LikeTrigger img").attr("src", "../images/" + (data.liked ? "liked.png" : "not-liked.png"));
+                }
+            });
+        });
+
+        $(document.forms['review-form']).on('submit', function(e) {
+            const text = e.target.text.value;
+            const title = $("#Title span").text();
+            const url = window.location.pathname.slice(window.location.pathname.lastIndexOf("/") + 1);
+            $.ajax({
+                type: "POST",
+                url: "/savereview",
+                data: JSON.stringify({text, title, url}),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(data, statusCode) {
+                    console.log(data);
+                    $(".MyReview").hide();
+                    let div = document.createElement('div');
+                    div.className = "Review MyReview";
+                    div.innerHTML = `<a class="ProfilePhoto" href="/users/${data.username}"><img src="../images/users/${data.username}.png" onerror="this.src='../images/default-user.png'; this.style.padding='20px'"></a>
+                    <h3><span>${data.username}</span><span class="Date"><span> про </span><a class="Link" href="/movies/${data.url}">${data.title}</a><span> ${data.date}</span></span></h3>
+                    <div class="Text">${data.text}</div><a class="Delete" onclick="clicked(this)"><img src="../images/close.png"></a>`;
+                    Reviews.insertBefore(div, Reviews.firstChild);
+                },
+                error: function(data, statusCode) {
+                    console.log(data.responseJSON.message);
+                }
+            });
+            return false;
+        });
+    });
+
+    function clicked(e) {
+        const url = window.location.pathname.slice(window.location.pathname.lastIndexOf("/") + 1);
+        $.ajax({
+            type: "POST",
+            url: "/removereview",
+            data: JSON.stringify({url}),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(data, statusCode) {
+                $("#reviewtext").val("");
+                $(".MyReview").hide();
+            }
+        });
+        return false;
+    };
+</script>
+</body>
+</html>
