@@ -9,4 +9,4 @@ All settings are stored in the config.json file. They must be changed! Dependenc
 
 Well, something like this. GL & HF :)
 
-(с) 2018 Alexander Lukovnokov
+(с) 2018 Alexander Lukovnikov
